@@ -1,13 +1,4 @@
 name: 'Test'
-description: 'Test'
-
-runs:
-  using: "composite"
-  steps:
-    - run: echo Hello world!
-      shell: bash
-
-name: 'Test'
 icon: 'check-circle'
 color: 'red'
 description: 'Test'
