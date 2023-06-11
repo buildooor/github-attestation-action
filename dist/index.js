@@ -12,7 +12,7 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const { onchain } = require('./attest');
 function main() {
-    var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             console.log('Reading inputs...');
@@ -39,10 +39,12 @@ function main() {
             if (network !== 'sepolia') {
                 throw new Error('only sepolia network is supported');
             }
+            console.log(github.event);
+            console.log(github.context);
             const pullRequest = (_c = (_b = (_a = github.context) === null || _a === void 0 ? void 0 : _a.payload) === null || _b === void 0 ? void 0 : _b.pull_request) === null || _c === void 0 ? void 0 : _c.number;
             const repo = (_f = (_e = (_d = github.context) === null || _d === void 0 ? void 0 : _d.payload) === null || _e === void 0 ? void 0 : _e.repository) === null || _f === void 0 ? void 0 : _f.full_name;
-            const branch = github.context.ref;
-            const username = github.context.payload.pull_request.user.login;
+            const branch = (_g = github === null || github === void 0 ? void 0 : github.context) === null || _g === void 0 ? void 0 : _g.ref;
+            const username = (_l = (_k = (_j = (_h = github.context) === null || _h === void 0 ? void 0 : _h.payload) === null || _j === void 0 ? void 0 : _j.pull_request) === null || _k === void 0 ? void 0 : _k.user) === null || _l === void 0 ? void 0 : _l.login;
             if (!pullRequest) {
                 console.log('pull request number is not available');
                 return;
@@ -63,8 +65,6 @@ function main() {
                 console.log(`branch ${branch} is not allowed`);
                 return;
             }
-            console.log(github.event);
-            console.log(github.context);
             const isPullRequestMerged = github.context.eventName == 'pull_request' && github.event.action == 'closed' && github.context.payload.pull_request.merged == true;
             if (onPullRequestMerged && !isPullRequestMerged) {
                 console.log('pull request is not merged');
