@@ -1,6 +1,6 @@
 # GitHub PR Attestation Action
 
-> A GitHub PR Attestation Action that automatically make an attestation to the [Ethereum Attestation Service](https://optimism-goerli.easscan.org/) every time a PR is merged into a repository's main branch. This attestation contains a reference to the repository, the specific PR number, the branch name the PR was merged to, and the GitHub username of the account that created the PR.
+> A GitHub PR Attestation Action that automatically make an attestation to the [Ethereum Attestation Service](https://easscan.org/) every time a PR is merged into a repository's main branch. This attestation contains a reference to the repository, the specific PR number, the branch name the PR was merged to, and the GitHub username of the account that created the PR.
 
 ## Inputs
 

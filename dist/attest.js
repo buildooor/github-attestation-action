@@ -88,7 +88,7 @@ function attest(input) {
             { name: 'username', value: username, type: 'string' },
             { name: 'pullRequest', value: pullRequest, type: 'uint256' },
         ]);
-        const tx = yield eas.attest({
+        const res = yield eas.attest({
             schema: schemaUID,
             data: {
                 recipient: '0x0000000000000000000000000000000000000000',
@@ -97,8 +97,8 @@ function attest(input) {
                 data: encodedData,
             },
         });
-        const hash = tx;
-        const newAttestationUID = yield tx.wait();
+        const hash = res.tx.hash;
+        const newAttestationUID = yield res.wait();
         return {
             hash,
             uid: newAttestationUID
