@@ -63,7 +63,7 @@ function main() {
                 console.log(`branch ${branch} is not allowed`);
                 return;
             }
-            const isPullRequestMerged = !!github.context.pull_request && github.context.payload.action == 'closed' && github.context.payload.pull_request.merged == true;
+            const isPullRequestMerged = !!github.context.payload.pull_request && github.context.payload.action == 'closed' && github.context.payload.pull_request.merged == true;
             if (onPullRequestMerged && !isPullRequestMerged) {
                 console.log('pull request is not merged');
                 return;
