@@ -36,50 +36,10 @@ function createSchema() {
         console.log('schema done');
     });
 }
-function offchain() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const provider = new ethers.providers.StaticJsonRpcProvider('https://eth-sepolia.g.alchemy.com/v2/B2UYqx9UmXKqTFcd5R1p1dz6lWFTeuUa');
-        const privateKey = process.env.PRIVATE_KEY;
-        // Signer is an ethers.js Signer instance
-        const signer = new ethers.Wallet(privateKey, provider);
-        const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
-        // Initialize Offchain class with EAS configuration
-        const EAS_CONFIG = {
-            address: EASContractAddress,
-            version: 0.26,
-            chainId: 11155111,
-        };
-        const offchain = new Offchain(EAS_CONFIG);
-        const repo = 'github';
-        const branch = 'master';
-        const username = 'github';
-        const pullRequest = 1;
-        // Initialize SchemaEncoder with the schema string
-        const schemaEncoder = new SchemaEncoder("string repository, string branch, string username, uint256 pullRequest");
-        const encodedData = schemaEncoder.encodeData([
-            { name: "repository", value: repo, type: "string" },
-            { name: "branch", value: branch, type: "string" },
-            { name: "username", value: username, type: "string" },
-            { name: "pullRequest", value: pullRequest, type: "uint256" },
-        ]);
-        const offchainAttestation = yield offchain.signOffchainAttestation({
-            recipient: '0x0000000000000000000000000000000000000000',
-            // Unix timestamp of when attestation expires. (0 for no expiration)
-            expirationTime: 0,
-            // Unix timestamp of current time
-            time: Math.floor(Date.now() / 1000),
-            revocable: true,
-            nonce: 0,
-            schema: '0x429091704945813744707f5bb6d6ac35bcb7c69add2e51316c8f17847d2bb587',
-            refUID: '0x0000000000000000000000000000000000000000000000000000000000000000',
-            data: encodedData,
-        }, signer);
-        console.log('attestation', offchainAttestation);
-    });
-}
 function onchain(data) {
     return __awaiter(this, void 0, void 0, function* () {
-        const provider = new ethers.providers.StaticJsonRpcProvider('https://eth-sepolia.g.alchemy.com/v2/B2UYqx9UmXKqTFcd5R1p1dz6lWFTeuUa');
+        const rpcUrl = data.rpcUrl;
+        const provider = new ethers.providers.StaticJsonRpcProvider(rpcUrl);
         const privateKey = data.privateKey;
         // Signer is an ethers.js Signer instance
         const signer = new ethers.Wallet(privateKey, provider);

@@ -6,11 +6,27 @@ async function main() {
   try {
     console.log('Reading inputs...');
     // const inputOptions: core.InputOptions = { required: false, trimWhitespace: true };
-    const inputOptions = { required: false, trimWhitespace: true };
-    const privateKey = core.getInput('private-key', inputOptions);
+    const privateKey = core.getInput('private-key', { required: true, trimWhitespace: true });
+    const rpcUrl = core.getInput('rpc-url', { required: false, trimWhitespace: true });
+    const network = core.getInput('network', { required: false, trimWhitespace: true }) || 'sepolia';
+    const _branch = core.getInput('branch', { required: false, trimWhitespace: true }) || ''
+    const _branches = core.getMultilineInput('branches', { required: false, trimWhitespace: true }) || []
+    const allowedBranches = _branches?.length ? _branches : [_branch]
 
     if (!privateKey) {
       throw new Error('private-key is required')
+    }
+
+    if (!rpcUrl) {
+      throw new Error('rpc-url is required')
+    }
+
+    if (!network) {
+      throw new Error('network is required')
+    }
+
+    if (network !== 'sepolia') {
+      throw new Error('only sepolia network is supported')
     }
 
     const pullRequest = github.context.payload.pull_request.number
@@ -18,7 +34,14 @@ async function main() {
     const branch = github.context.ref
     const username = github.context.payload.pull_request.user.login
 
+    if (!allowedBranches.includes(branch)) {
+      console.log(`branch ${branch} is not allowed`)
+      return
+    }
+
     console.log('Inputs:', {
+      allowedBranches,
+      rpcUrl,
       repo,
       branch,
       username,
@@ -27,6 +50,7 @@ async function main() {
 
     const hash = await onchain({
       privateKey,
+      rpcUrl,
       repo,
       branch,
       username,
