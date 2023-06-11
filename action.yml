@@ -1,26 +1,28 @@
-name: 'Test'
+name: 'Github PR Attestation Action'
 icon: 'check-circle'
 color: 'red'
-description: 'Test'
+description: 'C'
 inputs:
   private-key:
-    description: 'Private key'
-    required: true
-  rpc-url:
-    description: 'RPC URL'
+    description: 'The private key to use for signing and submitting attestation transactions.'
     required: true
   network:
-    description: 'Network'
-    required: false
+    description: 'The ethereum network to use. Options are: "sepolia"'
+    required: true
+  rpc-url:
+    description: 'The RPC URL to use.'
+    required: true
   branch:
-    description: 'Branch'
+    description: 'The main branch to trigger attestations on when PR is merged.'
     required: false
   branches:
-    description: 'Branches'
+    description: 'A list of main branches'
     required: false
 outputs:
   hash:
-    description: 'Transaction hash'
+    description: 'Transaction hash of the attestation'
+  uid:
+    description: 'UID of the attestation'
 runs:
   using: 'node16'
   main: 'dist/index.js'

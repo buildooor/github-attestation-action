@@ -1,2 +1,5 @@
+# do not gitignore these since github action needs them
 #node_modules
+#dist
+
 .env

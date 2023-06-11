@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,76 +31,74 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const core = require('@actions/core');
-const github = require('@actions/github');
-const { onchain } = require('./attest');
+Object.defineProperty(exports, "__esModule", { value: true });
+const core = __importStar(require("@actions/core"));
+const github = __importStar(require("@actions/github"));
+const attest_1 = require("./attest");
 function main() {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             console.log('Reading inputs...');
-            // const inputOptions: core.InputOptions = { required: false, trimWhitespace: true };
             const privateKey = core.getInput('private-key', { required: true, trimWhitespace: true });
-            const rpcUrl = core.getInput('rpc-url', { required: false, trimWhitespace: true });
             const network = core.getInput('network', { required: false, trimWhitespace: true }) || 'sepolia';
+            const rpcUrl = core.getInput('rpc-url', { required: false, trimWhitespace: true });
             const _branch = core.getInput('branch', { required: false, trimWhitespace: true }) || '';
             const _branches = core.getMultilineInput('branches', { required: false, trimWhitespace: true }) || [];
             const allowedBranches = (_branches === null || _branches === void 0 ? void 0 : _branches.length) ? _branches : [_branch];
-            const onPullRequestMerged = true; // core.getBooleanInput('on-pull-request-merged', { required: false, trimWhitespace: true }) || true
-            if (!onPullRequestMerged) {
-                throw new Error('on-pull-request-merged must be true or not set');
-            }
             if (!privateKey) {
                 throw new Error('private-key is required');
-            }
-            if (!rpcUrl) {
-                throw new Error('rpc-url is required');
             }
             if (!network) {
                 throw new Error('network is required');
             }
-            if (network !== 'sepolia') {
-                throw new Error('only sepolia network is supported');
+            if (!rpcUrl) {
+                throw new Error('rpc-url is required');
             }
-            const pullRequest = (_c = (_b = (_a = github.context) === null || _a === void 0 ? void 0 : _a.payload) === null || _b === void 0 ? void 0 : _b.pull_request) === null || _c === void 0 ? void 0 : _c.number;
-            const repo = (_f = (_e = (_d = github.context) === null || _d === void 0 ? void 0 : _d.payload) === null || _e === void 0 ? void 0 : _e.repository) === null || _f === void 0 ? void 0 : _f.full_name;
+            if (network !== 'sepolia') {
+                throw new Error('only sepolia network is supported at the moment');
+            }
+            const pullRequest = (_c = (_b = (_a = github === null || github === void 0 ? void 0 : github.context) === null || _a === void 0 ? void 0 : _a.payload) === null || _b === void 0 ? void 0 : _b.pull_request) === null || _c === void 0 ? void 0 : _c.number;
+            const repo = (_f = (_e = (_d = github === null || github === void 0 ? void 0 : github.context) === null || _d === void 0 ? void 0 : _d.payload) === null || _e === void 0 ? void 0 : _e.repository) === null || _f === void 0 ? void 0 : _f.full_name;
             const branch = (_g = github === null || github === void 0 ? void 0 : github.context) === null || _g === void 0 ? void 0 : _g.ref;
-            const username = (_l = (_k = (_j = (_h = github.context) === null || _h === void 0 ? void 0 : _h.payload) === null || _j === void 0 ? void 0 : _j.pull_request) === null || _k === void 0 ? void 0 : _k.user) === null || _l === void 0 ? void 0 : _l.login;
+            const username = (_l = (_k = (_j = (_h = github === null || github === void 0 ? void 0 : github.context) === null || _h === void 0 ? void 0 : _h.payload) === null || _j === void 0 ? void 0 : _j.pull_request) === null || _k === void 0 ? void 0 : _k.user) === null || _l === void 0 ? void 0 : _l.login;
             if (!pullRequest) {
-                console.log('pull request number is not available');
+                console.log('pull request number is not available, skipping attestation.');
                 return;
             }
             if (!repo) {
-                console.log('repo is not available');
+                console.log('repo is not available, skipping attestation.');
                 return;
             }
             if (!branch) {
-                console.log('branch is not available');
+                console.log('branch is not available, skipping attestation.');
                 return;
             }
             if (!username) {
-                console.log('username is not available');
+                console.log('username is not available, skipping attestation.');
                 return;
             }
             if (!allowedBranches.includes(branch)) {
-                console.log(`branch ${branch} is not allowed`);
+                console.log(`branch "${branch}" is not an allowed branch, skipping attestation.`);
                 return;
             }
-            const isPullRequestMerged = !!github.context.payload.pull_request && github.context.payload.action == 'closed' && github.context.payload.pull_request.merged == true;
-            if (onPullRequestMerged && !isPullRequestMerged) {
-                console.log('pull request is not merged');
+            const isPullRequestMerged = !!github.context.payload.pull_request && github.context.payload.action == 'closed' && github.context.payload.pull_request.merged;
+            if (!isPullRequestMerged) {
+                console.log('event is not a pull request merge, skipping attestation.');
                 return;
             }
             console.log('Inputs:', {
                 allowedBranches,
+                network,
                 rpcUrl,
                 repo,
                 branch,
                 username,
                 pullRequest
             });
-            const hash = yield onchain({
+            const { hash, uid } = yield (0, attest_1.attest)({
                 privateKey,
+                network,
                 rpcUrl,
                 repo,
                 branch,
@@ -85,7 +106,8 @@ function main() {
                 pullRequest
             });
             console.log('Setting outputs...');
-            core.setOutput("hash", hash);
+            core.setOutput('hash', hash);
+            core.setOutput('uid', uid);
             console.log('Done!');
         }
         catch (err) {

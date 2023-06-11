@@ -1,7 +1,7 @@
 {
-  "name": "optimism-github-action",
+  "name": "github-attestation-action",
   "version": "1.0.0",
-  "description": "GitHub PR Attestation Bot https://github.com/orgs/ethereum-optimism/projects/31/views/4?pane=issue&itemId=29632592",
+  "description": "GitHub PR Attestation Action",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,22 +9,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/buildooor/opgh.git"
+    "url": "git+https://github.com/buildooor/github-attestation-action.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/buildooor/opgh/issues"
+    "url": "https://github.com/buildooor/github-attestation-action/issues"
   },
-  "homepage": "https://github.com/buildooor/opgh#readme",
+  "homepage": "https://github.com/buildooor/github-attestation-action#readme",
   "dependencies": {
     "@actions/core": "^1.10.0",
     "@actions/github": "^5.1.1",
     "@ethereum-attestation-service/eas-sdk": "^0.28.3",
     "dotenv": "^16.1.3",
-    "ethers": "^5.7.2",
-    "install": "^0.13.0",
-    "npm": "^9.6.7"
+    "ethers": "^5.7.2"
   },
   "devDependencies": {
     "typescript": "^5.1.3"
