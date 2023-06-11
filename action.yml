@@ -6,6 +6,18 @@ inputs:
   private-key:
     description: 'Private key'
     required: true
+  rpc-url:
+    description: 'RPC URL'
+    required: true
+  network:
+    description: 'Network'
+    required: false
+  branch:
+    description: 'Branch'
+    required: false
+  branches:
+    description: 'Branches'
+    required: false
 outputs:
   hash:
     description: 'Transaction hash'
