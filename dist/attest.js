@@ -44,7 +44,7 @@ function createSchema(input) {
             resolverAddress,
             revocable,
         });
-        console.log('tx:', tx.hash);
+        console.log('tx:', tx);
         yield tx.wait();
         console.log('schema creation done');
     });
@@ -97,7 +97,7 @@ function attest(input) {
                 data: encodedData,
             },
         });
-        const hash = tx.hash;
+        const hash = tx;
         const newAttestationUID = yield tx.wait();
         return {
             hash,
