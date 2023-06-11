@@ -23,7 +23,7 @@ function main() {
             const _branch = core.getInput('branch', { required: false, trimWhitespace: true }) || '';
             const _branches = core.getMultilineInput('branches', { required: false, trimWhitespace: true }) || [];
             const allowedBranches = (_branches === null || _branches === void 0 ? void 0 : _branches.length) ? _branches : [_branch];
-            const onPullRequestMerged = core.getBooleanInput('on-pull-request-merged', { required: false, trimWhitespace: true }) || true;
+            const onPullRequestMerged = true; // core.getBooleanInput('on-pull-request-merged', { required: false, trimWhitespace: true }) || true
             if (!onPullRequestMerged) {
                 throw new Error('on-pull-request-merged must be true or not set');
             }

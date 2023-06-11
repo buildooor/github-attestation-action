@@ -18,9 +18,6 @@ inputs:
   branches:
     description: 'Branches'
     required: false
-  on-pull-request-merged:
-    description: 'Trigger only when pull request is merged into allowed branch or branches'
-    required: false
 outputs:
   hash:
     description: 'Transaction hash'
