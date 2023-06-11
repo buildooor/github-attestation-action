@@ -12,6 +12,7 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const { onchain } = require('./attest');
 function main() {
+    var _a, _b, _c, _d, _e, _f;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             console.log('Reading inputs...');
@@ -22,7 +23,10 @@ function main() {
             const _branch = core.getInput('branch', { required: false, trimWhitespace: true }) || '';
             const _branches = core.getMultilineInput('branches', { required: false, trimWhitespace: true }) || [];
             const allowedBranches = (_branches === null || _branches === void 0 ? void 0 : _branches.length) ? _branches : [_branch];
-            const onPullRequestMerged = core.getBooleanInput('on-pull-request-merged', { required: false, trimWhitespace: true }) || false;
+            const onPullRequestMerged = core.getBooleanInput('on-pull-request-merged', { required: false, trimWhitespace: true }) || true;
+            if (!onPullRequestMerged) {
+                throw new Error('on-pull-request-merged must be true or not set');
+            }
             if (!privateKey) {
                 throw new Error('private-key is required');
             }
@@ -35,10 +39,26 @@ function main() {
             if (network !== 'sepolia') {
                 throw new Error('only sepolia network is supported');
             }
-            const pullRequest = github.context.payload.pull_request.number;
-            const repo = github.context.payload.repository.full_name;
+            const pullRequest = (_c = (_b = (_a = github.context) === null || _a === void 0 ? void 0 : _a.payload) === null || _b === void 0 ? void 0 : _b.pull_request) === null || _c === void 0 ? void 0 : _c.number;
+            const repo = (_f = (_e = (_d = github.context) === null || _d === void 0 ? void 0 : _d.payload) === null || _e === void 0 ? void 0 : _e.repository) === null || _f === void 0 ? void 0 : _f.full_name;
             const branch = github.context.ref;
             const username = github.context.payload.pull_request.user.login;
+            if (!pullRequest) {
+                console.log('pull request number is not available');
+                return;
+            }
+            if (!repo) {
+                console.log('repo is not available');
+                return;
+            }
+            if (!branch) {
+                console.log('branch is not available');
+                return;
+            }
+            if (!username) {
+                console.log('username is not available');
+                return;
+            }
             if (!allowedBranches.includes(branch)) {
                 console.log(`branch ${branch} is not allowed`);
                 return;

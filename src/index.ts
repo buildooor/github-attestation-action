@@ -12,7 +12,11 @@ async function main() {
     const _branch = core.getInput('branch', { required: false, trimWhitespace: true }) || ''
     const _branches = core.getMultilineInput('branches', { required: false, trimWhitespace: true }) || []
     const allowedBranches = _branches?.length ? _branches : [_branch]
-    const onPullRequestMerged = core.getBooleanInput('on-pull-request-merged', { required: false, trimWhitespace: true }) || false
+    const onPullRequestMerged = core.getBooleanInput('on-pull-request-merged', { required: false, trimWhitespace: true }) || true
+
+    if (!onPullRequestMerged) {
+      throw new Error('on-pull-request-merged must be true or not set')
+    }
 
     if (!privateKey) {
       throw new Error('private-key is required')
@@ -30,10 +34,30 @@ async function main() {
       throw new Error('only sepolia network is supported')
     }
 
-    const pullRequest = github.context.payload.pull_request.number
-    const repo = github.context.payload.repository.full_name
+    const pullRequest = github.context?.payload?.pull_request?.number
+    const repo = github.context?.payload?.repository?.full_name
     const branch = github.context.ref
     const username = github.context.payload.pull_request.user.login
+
+    if (!pullRequest) {
+      console.log('pull request number is not available')
+      return
+    }
+
+    if (!repo) {
+      console.log('repo is not available')
+      return
+    }
+
+    if (!branch) {
+      console.log('branch is not available')
+      return
+    }
+
+    if (!username) {
+      console.log('username is not available')
+      return
+    }
 
     if (!allowedBranches.includes(branch)) {
       console.log(`branch ${branch} is not allowed`)
