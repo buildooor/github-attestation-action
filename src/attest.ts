@@ -76,7 +76,7 @@ async function offchain() {
   console.log('attestation', offchainAttestation)
 }
 
-async function onchain(data) {
+async function onchain(data: any) {
   const provider = new ethers.providers.StaticJsonRpcProvider('https://eth-sepolia.g.alchemy.com/v2/B2UYqx9UmXKqTFcd5R1p1dz6lWFTeuUa')
   const privateKey = data.privateKey
 
@@ -142,14 +142,12 @@ async function onchain(data) {
   console.log("New attestation UID:", newAttestationUID);
 }
 
-module.exports = {
-  onchain
-}
+export { onchain }
 
-async function main() {
+//async function main() {
   // await createSchema()
   // await offchain()
   // await onchain()
-}
+//}
 
 // main().catch(console.error)
