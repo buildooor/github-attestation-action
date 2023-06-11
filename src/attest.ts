@@ -51,13 +51,13 @@ export async function createSchema(input: CreateSchemaInput) {
   const resolverAddress = '0x0000000000000000000000000000000000000000'
   const revocable = true
 
-  const tx: any = await schemaRegistry.register({
+  const tx = await schemaRegistry.register({
     schema,
     resolverAddress,
     revocable,
   })
 
-  console.log('tx:', tx.hash)
+  console.log('tx:', tx)
   await tx.wait()
   console.log('schema creation done')
 }
@@ -111,7 +111,7 @@ export async function attest(input : AttestInput) {
     { name: 'pullRequest', value: pullRequest, type: 'uint256' },
   ])
 
-  const tx: any = await eas.attest({
+  const tx = await eas.attest({
     schema: schemaUID,
     data: {
       recipient: '0x0000000000000000000000000000000000000000',
@@ -121,7 +121,7 @@ export async function attest(input : AttestInput) {
     },
   })
 
-  const hash = tx.hash
+  const hash = tx
   const newAttestationUID = await tx.wait()
 
   return {
