@@ -111,7 +111,7 @@ export async function attest(input : AttestInput) {
     { name: 'pullRequest', value: pullRequest, type: 'uint256' },
   ])
 
-  const tx = await eas.attest({
+  const res = await eas.attest({
     schema: schemaUID,
     data: {
       recipient: '0x0000000000000000000000000000000000000000',
@@ -121,8 +121,8 @@ export async function attest(input : AttestInput) {
     },
   })
 
-  const hash = tx
-  const newAttestationUID = await tx.wait()
+  const hash = res.tx.hash
+  const newAttestationUID = await res.wait()
 
   return {
     hash,
