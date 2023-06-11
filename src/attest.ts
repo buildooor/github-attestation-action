@@ -124,8 +124,6 @@ export async function attest(input : AttestInput) {
   const hash = tx.hash
   const newAttestationUID = await tx.wait()
 
-  console.log('New attestation UID:', newAttestationUID)
-
   return {
     hash,
     uid: newAttestationUID

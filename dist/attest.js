@@ -99,7 +99,6 @@ function attest(input) {
         });
         const hash = tx.hash;
         const newAttestationUID = yield tx.wait();
-        console.log('New attestation UID:', newAttestationUID);
         return {
             hash,
             uid: newAttestationUID

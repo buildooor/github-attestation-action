@@ -105,6 +105,8 @@ function main() {
                 username,
                 pullRequest
             });
+            console.log('Transaction hash:', hash);
+            console.log('New attestation UID:', uid);
             console.log('Setting outputs...');
             core.setOutput('hash', hash);
             core.setOutput('uid', uid);
