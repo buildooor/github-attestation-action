@@ -34,9 +34,6 @@ async function main() {
       throw new Error('only sepolia network is supported')
     }
 
-    console.log(github.event)
-    console.log(github.context)
-
     const pullRequest = github.context?.payload?.pull_request?.number
     const repo = github.context?.payload?.repository?.full_name
     const branch = github?.context?.ref
@@ -67,7 +64,7 @@ async function main() {
       return
     }
 
-    const isPullRequestMerged = github.context.eventName == 'pull_request' && github.event.action == 'closed' && github.context.payload.pull_request.merged == true
+    const isPullRequestMerged = !!github.context.pull_request && github.context.payload.pull_request.state == 'closed' && github.context.payload.pull_request.merged == true
     if (onPullRequestMerged && !isPullRequestMerged) {
       console.log('pull request is not merged')
       return

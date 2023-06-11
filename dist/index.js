@@ -39,8 +39,6 @@ function main() {
             if (network !== 'sepolia') {
                 throw new Error('only sepolia network is supported');
             }
-            console.log(github.event);
-            console.log(github.context);
             const pullRequest = (_c = (_b = (_a = github.context) === null || _a === void 0 ? void 0 : _a.payload) === null || _b === void 0 ? void 0 : _b.pull_request) === null || _c === void 0 ? void 0 : _c.number;
             const repo = (_f = (_e = (_d = github.context) === null || _d === void 0 ? void 0 : _d.payload) === null || _e === void 0 ? void 0 : _e.repository) === null || _f === void 0 ? void 0 : _f.full_name;
             const branch = (_g = github === null || github === void 0 ? void 0 : github.context) === null || _g === void 0 ? void 0 : _g.ref;
@@ -65,7 +63,7 @@ function main() {
                 console.log(`branch ${branch} is not allowed`);
                 return;
             }
-            const isPullRequestMerged = github.context.eventName == 'pull_request' && github.event.action == 'closed' && github.context.payload.pull_request.merged == true;
+            const isPullRequestMerged = !!github.context.pull_request && github.context.payload.pull_request.state == 'closed' && github.context.payload.pull_request.merged == true;
             if (onPullRequestMerged && !isPullRequestMerged) {
                 console.log('pull request is not merged');
                 return;
