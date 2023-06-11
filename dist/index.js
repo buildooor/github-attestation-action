@@ -42,9 +42,9 @@ function main() {
             core.setOutput("hash", hash);
             console.log('Done!');
         }
-        catch (error) {
+        catch (err) {
             console.log('... an error occurred in this step.');
-            core.setFailed(JSON.stringify(error));
+            core.setFailed(err.message);
         }
     });
 }
