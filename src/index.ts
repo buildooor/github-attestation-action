@@ -12,6 +12,7 @@ async function main() {
     const _branch = core.getInput('branch', { required: false, trimWhitespace: true }) || ''
     const _branches = core.getMultilineInput('branches', { required: false, trimWhitespace: true }) || []
     const allowedBranches = _branches?.length ? _branches : [_branch]
+    const onPullRequestMerged = core.getMultilineInput('on-pull-request-merged', { required: false, trimWhitespace: true }) || false
 
     if (!privateKey) {
       throw new Error('private-key is required')
@@ -36,6 +37,14 @@ async function main() {
 
     if (!allowedBranches.includes(branch)) {
       console.log(`branch ${branch} is not allowed`)
+      return
+    }
+
+    const isPullRequestMerged = github.context.eventName == 'pull_request' && github.event.action == 'closed' && github.context.payload.pull_request.merged == true
+    console.log(github.event)
+    console.log(github.context)
+    if (!isPullRequestMerged) {
+      console.log('pull request is not merged')
       return
     }
 
