@@ -38,9 +38,9 @@ async function main() {
 
     console.log('Done!');
   }
-  catch (error) {
+  catch (err: any) {
     console.log('... an error occurred in this step.');
-    core.setFailed(JSON.stringify(error));
+    core.setFailed(err.message);
   }
 }
 
