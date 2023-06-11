@@ -21,7 +21,7 @@ function main() {
             if (!privateKey) {
                 throw new Error('private-key is required');
             }
-            const pullRequest = github.context.payload.pull_request;
+            const pullRequest = github.context.payload.pull_request.number;
             const repo = github.context.payload.repository.full_name;
             const branch = github.context.ref;
             const username = pullRequest.user.login;
