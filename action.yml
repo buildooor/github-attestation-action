@@ -1,0 +1,23 @@
+name: 'Test'
+description: 'Test'
+
+runs:
+  using: "composite"
+  steps:
+    - run: echo Hello world!
+      shell: bash
+
+name: 'Test'
+icon: 'check-circle'
+color: 'red'
+description: 'Test'
+inputs:
+  private-key:
+    description: 'Private key'
+    required: true
+outputs:
+  hash:
+    description: 'Transaction hash'
+runs:
+  using: 'node16'
+  main: 'src/index.js'
