@@ -14,11 +14,11 @@
 
 ### `rpc-url`
 
-The RPC URL to use.
+The RPC URL to use. A default one will be used if not specified.
 
 ### `branch`
 
-.The main branch to trigger attestations on when PR is merged. Default `"main"`
+The main branch to trigger attestations on when PR is merged. Default `"main"`
 
 ## Outputs
 
