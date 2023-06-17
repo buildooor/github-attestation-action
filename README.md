@@ -10,11 +10,11 @@
 
 ### `network`
 
-**Required** The ethereum network to use. Default `"sepolia"`.
+**Required** The ethereum network to use. Default `"sepolia"`, Options are `"mainnet"`, `"sepolia"`, `"optimism-goerli"`.
 
 ### `rpc-url`
 
-**Required** The RPC URL to use.
+The RPC URL to use.
 
 ### `branch`
 

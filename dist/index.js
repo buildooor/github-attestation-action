@@ -35,6 +35,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
 const github = __importStar(require("@actions/github"));
 const attest_1 = require("./attest");
+const config_1 = require("./config");
 function main() {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
     return __awaiter(this, void 0, void 0, function* () {
@@ -42,7 +43,7 @@ function main() {
             console.log('Reading inputs...');
             const privateKey = core.getInput('private-key', { required: true, trimWhitespace: true });
             const network = core.getInput('network', { required: false, trimWhitespace: true }) || 'sepolia';
-            const rpcUrl = core.getInput('rpc-url', { required: false, trimWhitespace: true });
+            const rpcUrl = core.getInput('rpc-url', { required: false, trimWhitespace: true }) || config_1.defaultRpcUrls[network];
             const _branch = core.getInput('branch', { required: false, trimWhitespace: true }) || '';
             const _branches = core.getMultilineInput('branches', { required: false, trimWhitespace: true }) || [];
             const allowedBranches = (_branches === null || _branches === void 0 ? void 0 : _branches.length) ? _branches : [_branch];
@@ -55,8 +56,8 @@ function main() {
             if (!rpcUrl) {
                 throw new Error('rpc-url is required');
             }
-            if (network !== 'sepolia') {
-                throw new Error('only sepolia network is supported at the moment');
+            if (!config_1.supportedNetworks.has(network)) {
+                throw new Error(`network "${network}" is not supported`);
             }
             const pullRequest = (_c = (_b = (_a = github === null || github === void 0 ? void 0 : github.context) === null || _a === void 0 ? void 0 : _a.payload) === null || _b === void 0 ? void 0 : _b.pull_request) === null || _c === void 0 ? void 0 : _c.number;
             const repo = (_f = (_e = (_d = github === null || github === void 0 ? void 0 : github.context) === null || _d === void 0 ? void 0 : _d.payload) === null || _e === void 0 ? void 0 : _e.repository) === null || _f === void 0 ? void 0 : _f.full_name;

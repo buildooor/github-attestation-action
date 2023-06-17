@@ -11,7 +11,7 @@ inputs:
     required: true
   rpc-url:
     description: 'The RPC URL to use.'
-    required: true
+    required: false
   branch:
     description: 'The main branch to trigger attestations on when PR is merged.'
     required: false
@@ -20,9 +20,9 @@ inputs:
     required: false
 outputs:
   hash:
-    description: 'Transaction hash of the attestation'
+    description: 'Transaction hash of the attestation submission.'
   uid:
-    description: 'UID of the attestation'
+    description: 'UID of the attestation.'
 runs:
   using: 'node16'
   main: 'dist/index.js'

@@ -1,13 +1,14 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { attest } from './attest'
+import { supportedNetworks, defaultRpcUrls } from './config'
 
 async function main() {
   try {
     console.log('Reading inputs...')
     const privateKey = core.getInput('private-key', { required: true, trimWhitespace: true })
     const network = core.getInput('network', { required: false, trimWhitespace: true }) || 'sepolia'
-    const rpcUrl = core.getInput('rpc-url', { required: false, trimWhitespace: true })
+    const rpcUrl = core.getInput('rpc-url', { required: false, trimWhitespace: true }) || defaultRpcUrls[network]
     const _branch = core.getInput('branch', { required: false, trimWhitespace: true }) || ''
     const _branches = core.getMultilineInput('branches', { required: false, trimWhitespace: true }) || []
     const allowedBranches = _branches?.length ? _branches : [_branch]
@@ -24,8 +25,8 @@ async function main() {
       throw new Error('rpc-url is required')
     }
 
-    if (network !== 'sepolia') {
-      throw new Error('only sepolia network is supported at the moment')
+    if (!supportedNetworks.has(network)) {
+      throw new Error(`network "${network}" is not supported`)
     }
 
     const pullRequest = github?.context?.payload?.pull_request?.number
