@@ -52,6 +52,18 @@ jobs:
           branch: master
 ```
 
+An example job that ran using this action can be viewed here:
+
+https://github.com/buildooor/github-action-test/actions/runs/5235160033/jobs/9451797252
+
+The example job attestation tx:
+
+https://sepolia.etherscan.io/tx/0x419d5c1a845c38a4ba25596286f00ab39208c62312ee27e703b8bb7097a470d5
+
+The example job attestation on EAS:
+
+https://sepolia.easscan.org/attestation/view/0xe1166d38f2edae4e2373c800cbb7af1be4845b2bdf356c8a3cd0daea3ae1a7be
+
 ## Development
 
 Install dependencies:
