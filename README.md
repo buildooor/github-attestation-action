@@ -10,7 +10,7 @@
 
 ### `network`
 
-**Required** The ethereum network to use. Default `"sepolia"`, Options are `"mainnet"`, `"sepolia"`, `"optimism-goerli"`.
+**Required** The ethereum network to use. Default `"sepolia"`, Options are `"mainnet"`, `"sepolia"`, `"optimism"`, `"optimism-goerli"`.
 
 ### `rpc-url`
 

@@ -7,11 +7,6 @@ const addresses: any = {
     EASContractAddress: '0xA1207F3BBa224E2c9c3c6D5aF63D0eb1582Ce587',
     schemaUID: '0x47a1041b689b790b4d3fa58ae2289a1d903dcc5b4e00d14f941090b59d947971'
   },
-  'goerli': {
-    schemaRegistryContractAddress: '',
-    EASContractAddress: '',
-    schemaUID: ''
-  },
   'sepolia': {
     schemaRegistryContractAddress: '0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0', // Sepolia 0.26
     EASContractAddress: '0xC2679fBD37d54388Ce493F1DB75320D236e1815e', // Sepolia v0.26
@@ -23,9 +18,9 @@ const addresses: any = {
     schemaUID: '0x47a1041b689b790b4d3fa58ae2289a1d903dcc5b4e00d14f941090b59d947971'
   },
   'optimism': {
-    schemaRegistryContractAddress: '',
-    EASContractAddress: '',
-    schemaUID: ''
+    schemaRegistryContractAddress: '0x4200000000000000000000000000000000000020',
+    EASContractAddress: '0x4200000000000000000000000000000000000021',
+    schemaUID: '0x47a1041b689b790b4d3fa58ae2289a1d903dcc5b4e00d14f941090b59d947971'
   }
 }
 
@@ -164,22 +159,28 @@ export async function attest(input : AttestInput) {
 if (require.main === module) {
   require('dotenv').config()
   async function main() {
-    // await createSchema({
-    //   privateKey: process.env.PRIVATE_KEY,
-    //   network: process.env.NETWORK,
-    //   rpcUrl: process.env.RPC_URL
-    // } as any)
+    const privateKey = process.env.PRIVATE_KEY
+    const network = process.env.NETWORK
+    const rpcUrl = process.env.RPC_URL
 
-    // const result = await attest({
-    //   privateKey: process.env.PRIVATE_KEY,
-    //   network: process.env.NETWORK,
-    //   rpcUrl: process.env.RPC_URL,
-    //   repo: 'example',
-    //   branch: 'main',
-    //   username: 'example',
-    //   pullRequest: 1
-    // } as any)
-    // console.log('result:', result)
+    if (privateKey && network && rpcUrl) {
+      await createSchema({
+        privateKey,
+        network,
+        rpcUrl,
+      } as any)
+
+      const result = await attest({
+        privateKey,
+        network,
+        rpcUrl,
+        repo: 'example',
+        branch: 'main',
+        username: 'example',
+        pullRequest: 1
+      } as any)
+      console.log('result:', result)
+    }
   }
 
   main().catch(console.error)
